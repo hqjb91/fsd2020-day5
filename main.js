@@ -63,9 +63,10 @@ app.post('/', express.urlencoded({extended:true}), async (req, res) => {
         articles = matchedArticles[0].articles;
     } else {
         const endpoint = 'https://newsapi.org/v2/top-headlines';
-        const url = withQuery(endpoint, { q, apiKey: process.env.API_KEY, country, category });
+        //const url = withQuery(endpoint, { q, apiKey: process.env.API_KEY, country, category });
+        const url = withQuery(endpoint, { q, country, category });
 
-        const results = await fetch(url);
+        const results = await fetch(url, { method: 'GET', headers: {'X-Api-Key':process.env.API_KEY}});
         const resultsJSON = await results.json();
         
         articles = resultsJSON.articles.map((article) => {
@@ -81,9 +82,15 @@ app.post('/', express.urlencoded({extended:true}), async (req, res) => {
         cache.push({searchTerms,articles, date: timeNow});
     }
 
+    // Check if search returned any results
+    const isArticlesEmpty = (articles.length < 1);
+
+    // Check if all inputs are filled in
+    const isNotFilledIn = q.length < 1 || (typeof country !== 'string');
+
     res.status(200);
     res.type('text/html');
-    res.render('index', {searchTerms, countries, categories, articles});
+    res.render('index', {searchTerms, countries, categories, articles, isArticlesEmpty, isNotFilledIn});
 
 });
 

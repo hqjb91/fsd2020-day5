@@ -4,7 +4,7 @@
         <input type="text" name="q" id="q" class="form-control mt-5" placeholder="Search the website for news" value="{{searchTerms.q}}">
     </div>
 
-    <div class="form-check form-check-inline">
+    <div class="form-check form-check-inline d-flex justify-content-around">
         {{#each countries}}
                 <input class="form-check-input" type="radio" name="country" id="{{this.country}}" value="{{this.country}}" {{this.checked}}>
                 <label class="form-check-label" for="{{this.country}}"><img src="/images/{{this.country}}.png" alt=""></label>
@@ -24,11 +24,16 @@
     </div>
 </form>
 
+{{#if isArticlesEmpty}}
+<p> Your search did not return any results.</p>
+{{else if isNotFilledIn}}
+<p> Please fill in all fields.</p>
+{{else}}
 <div class="articles">
 
     {{#each articles}}
         <div class="card" style="width: 100%;">
-            <img class="card-img-top" src="{{this.urlToImage}}" alt="Card image cap">
+            <img class="card-img-top" src="{{this.urlToImage}}" alt="{{this.title}}">
             <div class="card-body">
                 <h5 class="card-title">{{this.title}}</h5>
                 <p class="card-text">{{this.description}}</p>
@@ -39,3 +44,4 @@
     {{/each}}
 
 </div>
+{{/if}}
