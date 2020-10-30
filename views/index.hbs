@@ -1,0 +1,41 @@
+<form action="/" method="POST">
+    <div class="form-group">
+        <label for="newsSearch"><h1>News Search</h1></label>
+        <input type="text" name="newsSearch" id="newsSearch" class="form-control mt-5" placeholder="Search the website for news">
+    </div>
+
+    <div class="form-check form-check-inline">
+        {{#each countries}}
+            <input class="form-check-input" type="radio" name="countries" id="{{this}}" value="{{this}}">
+            <label lass="form-check-label" for="{{this}}"><img src="/images/{{this}}.png" alt=""></label>
+        {{/each}}
+    </div>    
+
+    <div class="form-group">
+        <select name="categories" id="categories" class="form-control">
+         {{#each categories}}
+                <option value="{{this}}">{{this}}</option>
+        {{/each}}   
+        </select>    
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary mb-5">Submit</button>  
+    </div>
+</form>
+
+<div class="articles">
+
+    {{#each articles}}
+        <div class="card" style="width: 100%;">
+            <img class="card-img-top" src="{{this.urlToImage}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">{{this.description}}</p>
+                <p class="card-text">{{this.publishedAt}}</p>
+                <a href="{{this.url}}" class="btn btn-primary">Read more...</a>
+            </div>
+        </div>
+    {{/each}}
+
+</div>
