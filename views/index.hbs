@@ -1,20 +1,20 @@
 <form action="/" method="POST">
     <div class="form-group">
         <label for="newsSearch"><h1>News Search</h1></label>
-        <input type="text" name="newsSearch" id="newsSearch" class="form-control mt-5" placeholder="Search the website for news">
+        <input type="text" name="q" id="q" class="form-control mt-5" placeholder="Search the website for news" value="{{searchTerms.q}}">
     </div>
 
     <div class="form-check form-check-inline">
         {{#each countries}}
-            <input class="form-check-input" type="radio" name="countries" id="{{this}}" value="{{this}}">
-            <label lass="form-check-label" for="{{this}}"><img src="/images/{{this}}.png" alt=""></label>
+                <input class="form-check-input" type="radio" name="country" id="{{this.country}}" value="{{this.country}}" {{this.checked}}>
+                <label class="form-check-label" for="{{this.country}}"><img src="/images/{{this.country}}.png" alt=""></label>
         {{/each}}
     </div>    
 
     <div class="form-group">
-        <select name="categories" id="categories" class="form-control">
+        <select name="category" id="category" class="form-control">
          {{#each categories}}
-                <option value="{{this}}">{{this}}</option>
+                <option value="{{this.category}}" {{this.selected}}>{{this.category}}</option>
         {{/each}}   
         </select>    
     </div>
