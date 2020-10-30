@@ -10,7 +10,7 @@ require('dotenv').config();
 // Set up port
 const PORT = parseInt(process.argv[2]) || parseInt(process.env.PORT) || 3000;
 
-// Set up variables
+// Set up variables to store state of previous searches
 const countries = [{country:'us',checked:''}, {country:'gb',checked:''}, {country:'jp',checked:''}, {country:'sg' ,checked:''}, {country:'fr',checked:''}, {country:'cn', checked:''}];
 const categories = [{category:'Business',selected:''}, {category:'Entertainment',selected:''}, {category:'General',selected:''}, {category:'Health',selected:''}, {category:'Science',selected:''}, {category:'Sports',selected:''}, {category:'Technology',selected:''}];
 const cache = [];
@@ -26,6 +26,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/static'));
 
 // Configure the routes
+// Load landing page
 app.get('/', (req, res) => {
 
     categories.forEach(e => e.selected=''); // Reset remembered categories
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
     });
 });
 
+// Handle form request
 app.post('/', express.urlencoded({extended:true}), async (req, res) => {
 
     const searchTerms = {q, country, category} = req.body;
@@ -70,16 +72,12 @@ app.post('/', express.urlencoded({extended:true}), async (req, res) => {
         const resultsJSON = await results.json();
         
         articles = resultsJSON.articles.map((article) => {
-            return { 
-                title: article.title,
-                urlToImage: article. urlToImage,
-                description: article.description,
-                publishedAt: article.publishedAt,
-                url: article.url }
+            const {title, urlToImage, description, publishedAt, url} = article;
+            return { title, urlToImage, description, publishedAt, url };
         });
 
         // Store in cache
-        cache.push({searchTerms,articles, date: timeNow});
+        cache.push({searchTerms, articles, date: timeNow});
     }
 
     // Check if search returned any results

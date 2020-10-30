@@ -7,5 +7,16 @@
 
 h1 {
     font-weight: bold;
-    font-size: 5rem;
+    font-size: 4rem;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #006699;
+}
+
+.container {
+    border: 1px solid #006699;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
